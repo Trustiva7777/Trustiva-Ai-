@@ -34,6 +34,8 @@ Autonomous AI‑to‑blockchain trust infrastructure.
 
 [![CI](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml/badge.svg)](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-C7A340.svg)](./LICENSE)
+[![Release](https://img.shields.io/github/v/release/Trustiva7777/Trustiva-Ai-?color=C7A340)](https://github.com/Trustiva7777/Trustiva-Ai-/releases)
+[![CodeQL](https://img.shields.io/badge/CodeQL-Security%20Analysis-C7A340)](./.github/workflows/codeql.yml)
 [![Docs](https://img.shields.io/badge/Docs-/docs-000000.svg?logo=readthedocs&logoColor=C7A340)](./docs)
 ![Docker Compose](https://img.shields.io/badge/Docker-Compose-000000.svg?logo=docker&logoColor=C7A340)
 ![Python](https://img.shields.io/badge/Python-3.12-000000.svg?logo=python&logoColor=C7A340)
@@ -347,6 +349,7 @@ MIT — see [`LICENSE`](./LICENSE).
 
 - Runbook: `docs/README_RUNBOOK.md`
 - Engineering Appraisal: `docs/Trustiva_1.0_Appraisal.md`
+- Docs Portal: `docs/_index.md`
 - CI Workflow: `.github/workflows/ci.yml`
 - Security Policy: `SECURITY.md`
 - Contributing Guide: `CONTRIBUTING.md`
