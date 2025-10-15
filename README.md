@@ -32,6 +32,8 @@ Deliver a production‑grade trust pipeline where AI‑generated evidence is:
 
 Autonomous AI‑to‑blockchain trust infrastructure.
 
+<img src="assets/og-banner.svg" alt="Trustiva OG Banner" width="720" />
+
 [![CI](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml/badge.svg)](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-C7A340.svg)](./LICENSE)
 [![Release](https://img.shields.io/github/v/release/Trustiva7777/Trustiva-Ai-?color=C7A340)](https://github.com/Trustiva7777/Trustiva-Ai-/releases)

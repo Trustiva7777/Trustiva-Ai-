@@ -1,0 +1,27 @@
+name: Create Release from Changelog
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Extract changelog for tag
+        id: changelog
+        run: |
+          TAG=${GITHUB_REF_NAME}
+          awk -v tag="${TAG}" '/^## \[/ {s=0} $0 ~ "^## \["tag"\]" {s=1; next} s==1 {print}' CHANGELOG.md | sed '/^## \[/,$d' > body.md || true
+          if [ ! -s body.md ]; then echo "No changelog section for ${TAG}" > body.md; fi
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: body.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

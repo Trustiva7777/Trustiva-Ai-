@@ -7,6 +7,15 @@ theme:
     - scheme: default
       primary: black
       accent: amber
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Trustiva7777/Trustiva-Ai-
+  open_graph:
+    image: assets/og-banner.svg
+    type: website
+    title: Trustiva AI + Proof Kernel
+    description: Sovereign-grade AI-to-Blockchain Trust Infrastructure
 nav:
   - Overview: index.md
   - Runbook: README_RUNBOOK.md
