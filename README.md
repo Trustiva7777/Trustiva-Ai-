@@ -37,7 +37,7 @@ Autonomous AI‑to‑blockchain trust infrastructure.
 [![CI](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml/badge.svg)](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-C7A340.svg)](./LICENSE)
 [![Release](https://img.shields.io/github/v/release/Trustiva7777/Trustiva-Ai-?color=C7A340)](https://github.com/Trustiva7777/Trustiva-Ai-/releases)
-[![CodeQL](https://img.shields.io/badge/CodeQL-Security%20Analysis-C7A340)](./.github/workflows/codeql.yml)
+[![CodeQL](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/codeql.yml/badge.svg)](https://github.com/Trustiva7777/Trustiva-Ai-/actions/workflows/codeql.yml)
 [![Docs](https://img.shields.io/badge/Docs-/docs-000000.svg?logo=readthedocs&logoColor=C7A340)](./docs)
 [![Docs Site](https://img.shields.io/badge/Docs-Site-C7A340.svg)](https://trustiva7777.github.io/Trustiva-Ai-/)
 ![Docker Compose](https://img.shields.io/badge/Docker-Compose-000000.svg?logo=docker&logoColor=C7A340)
@@ -359,6 +359,8 @@ MIT — see [`LICENSE`](./LICENSE).
 - Changelog: `CHANGELOG.md`
 - Issue Templates: `.github/ISSUE_TEMPLATE/*`
 - PR Template: `.github/pull_request_template.md`
+
+Custom domain (optional): Add a `docs/CNAME` file with your domain (e.g., `docs.trustiva.ai`) and point DNS CNAME to `trustiva7777.github.io`. Update `site_url` in `mkdocs.yml` accordingly.
 
 ---
 
