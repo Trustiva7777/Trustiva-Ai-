@@ -16,7 +16,7 @@ transformers==4.57.1
 # Comms
 twilio==9.3.4
 sendgrid==6.11.0
-google-api-python-client==2.149.0
+google-api-python-client==2.184.0
 google-auth-oauthlib==1.2.1
 # Web3
 web3==6.20.2
