@@ -354,6 +354,8 @@ MIT — see [`LICENSE`](./LICENSE).
 - Security Policy: `SECURITY.md`
 - Contributing Guide: `CONTRIBUTING.md`
 - Changelog: `CHANGELOG.md`
+- Issue Templates: `.github/ISSUE_TEMPLATE/*`
+- PR Template: `.github/pull_request_template.md`
 
 ---
 

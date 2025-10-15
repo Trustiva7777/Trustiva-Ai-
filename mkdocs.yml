@@ -1,0 +1,18 @@
+site_name: Trustiva Docs
+site_url: https://trustiva7777.github.io/Trustiva-Ai-/
+repo_url: https://github.com/Trustiva7777/Trustiva-Ai-
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: black
+      accent: amber
+nav:
+  - Overview: index.md
+  - Runbook: README_RUNBOOK.md
+  - Appraisal: Trustiva_1.0_Appraisal.md
+  - Playbook: playbook.md
+  - Governance:
+      - Security: governance/security.md
+      - Contributing: governance/contributing.md
+      - Changelog: governance/changelog.md
