@@ -16,11 +16,24 @@ extra:
     type: website
     title: Trustiva AI + Proof Kernel
     description: Sovereign-grade AI-to-Blockchain Trust Infrastructure
+plugins:
+  - search
+  - awesome-pages
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_root_heading: true
+            separate_signature: true
+            show_source: false
 nav:
   - Overview: index.md
   - Runbook: README_RUNBOOK.md
   - Appraisal: Trustiva_1.0_Appraisal.md
   - Playbook: playbook.md
+  - API:
+      - Ops API: api/ops.md
   - Governance:
       - Security: governance/security.md
       - Contributing: governance/contributing.md

@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Install MkDocs
-        run: pip install mkdocs mkdocs-material
+        run: pip install mkdocs mkdocs-material mkdocstrings[python] mkdocs-awesome-pages-plugin
       - name: Build site
         run: mkdocs build --site-dir site
       - name: Upload artifact
