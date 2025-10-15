@@ -1,0 +1,156 @@
+{
+  "name": "Trustiva M2 Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trustiva/run",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "Webhook_Trigger",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [ 200, 300 ]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.ORCH_URL || 'http://127.0.0.1:8000/swarm/run'}}",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={ \n  \"task\": $json.task || 'publish',\n  \"params\": $json.params || { \n    \"path\": 'dist' \n  } \n}"
+      },
+      "id": "HTTP_Orchestrator_Publish",
+      "name": "Publish via Orchestrator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 480, 300 ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const gw = $json.gateway || $env.IPFS_GATEWAY; return [{ json: { cid: $json.cid, gateway: gw, url: `${gw}/ipfs/${$json.cid}/` } }];"
+      },
+      "id": "Function_Extract",
+      "name": "Extract CID",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [ 740, 300 ]
+    },
+    {
+      "parameters": {
+        "url": "={{$json.url}}",
+        "method": "HEAD",
+        "jsonParameters": false,
+        "options": {}
+      },
+      "id": "HTTP_Gateway_Verify",
+      "name": "Gateway Verify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 980, 300 ]
+    },
+    {
+      "parameters": {
+        "command": "node",
+        "arguments": "scripts/xrpl-anchor-cid.mjs {{$json.cid}}",
+        "options": {}
+      },
+      "id": "Exec_XRPL_Anchor",
+      "name": "XRPL Anchor",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 1220, 220 ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const out = JSON.parse($json[\\"stdout\\"]||'{}'); return [{ json: { ...$json, xrpl: out } }];"
+      },
+      "id": "Function_Parse_Anchor",
+      "name": "Parse Anchor",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [ 1460, 220 ]
+    },
+    {
+      "parameters": {
+        "command": "node",
+        "arguments": "scripts/mint-token.mjs --send --note=ipfs://{{$json.cid}}",
+        "options": {}
+      },
+      "id": "Exec_Polygon_Mint",
+      "name": "Polygon Mint",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 1220, 380 ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const out = JSON.parse($json[\\"stdout\\"]||'{}'); return [{ json: { ...$json, mint: out } }];"
+      },
+      "id": "Function_Parse_Mint",
+      "name": "Parse Mint",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [ 1460, 380 ]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.ZOHO_OPS_URL || 'http://127.0.0.1:9000/ops/zoho/send_mail'}}",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"to\": $env.NOTIFY_EMAIL || 'ops@example.com',\n  \"subject\": 'New Trustiva Mint',\n  \"html\": `Minted CID: ${$json.cid}<br/>XRPL: ${$json.xrpl?.tx_hash || 'n/a'}<br/>Tx: ${$json.mint?.hash || 'n/a'}`\n}"
+      },
+      "id": "HTTP_Zoho_Notify",
+      "name": "Zoho Notify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 1700, 300 ]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.SLACK_WEBHOOK || ''}}",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"text\": `Trustiva: CID ${$json.cid} minted. XRPL: ${$json.xrpl?.tx_hash || 'n/a'} Tx: ${$json.mint?.hash || 'n/a'}`\n}"
+      },
+      "id": "HTTP_Slack",
+      "name": "Slack Notify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 1700, 120 ]
+    },
+    {
+      "parameters": {
+        "command": "bash",
+        "arguments": "-lc \"jq -n --arg cid '{{$json.cid}}' --arg xrpl '{{$json.xrpl.tx_hash || \"\"}}' --arg tx '{{$json.mint.hash || \"\"}}' '{time:(now|floor),cid:$cid,xrpl:$xrpl,tx:$tx}' >> trustiva-registry.ndjson\"",
+        "options": {}
+      },
+      "id": "Exec_Update_Registry",
+      "name": "Update Registry",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 1700, 480 ]
+    }
+  ],
+  "connections": {
+    "Webhook_Trigger": { "main": [ [ { "node": "Publish via Orchestrator", "type": "main", "index": 0 } ] ] },
+    "Publish via Orchestrator": { "main": [ [ { "node": "Extract CID", "type": "main", "index": 0 } ] ] },
+    "Extract CID": { "main": [ [ { "node": "Gateway Verify", "type": "main", "index": 0 } ] ] },
+    "Gateway Verify": { "main": [ [ { "node": "XRPL Anchor", "type": "main", "index": 0 }, { "node": "Polygon Mint", "type": "main", "index": 0 } ] ] },
+    "XRPL Anchor": { "main": [ [ { "node": "Parse Anchor", "type": "main", "index": 0 } ] ] },
+    "Polygon Mint": { "main": [ [ { "node": "Parse Mint", "type": "main", "index": 0 } ] ] },
+    "Parse Anchor": { "main": [ [ { "node": "Zoho Notify", "type": "main", "index": 0 }, { "node": "Slack Notify", "type": "main", "index": 0 }, { "node": "Update Registry", "type": "main", "index": 0 } ] ] },
+    "Parse Mint": { "main": [ [ { "node": "Zoho Notify", "type": "main", "index": 0 }, { "node": "Slack Notify", "type": "main", "index": 0 }, { "node": "Update Registry", "type": "main", "index": 0 } ] ] }
+  },
+  "pinData": {},
+  "active": false,
+  "settings": {},
+  "staticData": null,
+  "meta": {
+    "templateCredsSetup": []
+  }
+}

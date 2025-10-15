@@ -1,0 +1,32 @@
+{
+  "name": "Trustiva Codespace",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "onCreateCommand": "bash scripts/codespaces-bootstrap.sh",
+  "postStartCommand": "bash scripts/codespaces-bootstrap.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.12" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "forwardPorts": [3000, 8000, 6379, 6333, 8082, 5201],
+  "postCreateCommand": "pip3 install -r requirements.txt && npm i --prefix apps/web || true",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.exclude": {
+          "**/.pytest_cache": true,
+          "**/__pycache__": true,
+          "**/.next": true
+        }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}

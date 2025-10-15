@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-select = ["E", "F", "I"]
+exclude = [".venv", "venv", "node_modules", "dist"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+strict_optional = false
+warn_unreachable = true
+exclude = "(venv|.venv|node_modules|dist)"

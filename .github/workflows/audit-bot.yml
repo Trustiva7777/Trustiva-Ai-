@@ -1,0 +1,62 @@
+name: Trustiva Audit Bot
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: |
+          pip3 install -r requirements.txt
+          npm ci || npm i
+      - name: Tests
+        run: pytest -q
+      - name: Bootstrap .env
+        run: bash scripts/codespaces-bootstrap.sh
+        env:
+          HUGGING: ${{ secrets.HUGGING }}
+          HUGGINGREAD: ${{ secrets.HUGGINGREAD }}
+          HUGGINGWRITE: ${{ secrets.HUGGINGWRITE }}
+          IPFS: ${{ secrets.IPFS }}
+          OPENAI: ${{ secrets.OPENAI }}
+          POLYGON: ${{ secrets.POLYGON }}
+      - name: Ensure Ops API (resolver) is available
+        run: |
+          uvicorn services.api.main:app --host 0.0.0.0 --port 9000 &
+          sleep 2
+      - name: Publish to IPFS
+        run: |
+          python3 scripts/publish_to_ipfs.py dist | tee publish.result.json
+      - name: Resolve audit bundle
+        run: |
+          CID=$(jq -r '.cid' publish.result.json)
+          curl -sS "http://127.0.0.1:9000/registry/resolve?cid=$CID" | tee audit-bundle.json | jq .
+      - name: Sign proof bundle
+        run: bash scripts/audit_sign.sh audit-bundle.json
+        env:
+          GPG_KEY: ${{ secrets.AUDIT_GPG_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.AUDIT_GPG_PASSPHRASE }}
+      - name: Slack notify (optional)
+        if: ${{ secrets.SLACK_WEBHOOK != '' }}
+        run: |
+          TEXT=$(jq -r '"Proof for CID \(.cid): gateway \(.gateway.ok), sha256 \(.sha256 // .sha // "")"' audit-bundle.json)
+          curl -sS -X POST '${{ secrets.SLACK_WEBHOOK }}' -H 'Content-Type: application/json' -d "{\"text\": \"$TEXT\"}"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-bundle
+          path: |
+            audit-bundle.json
+            audit-bundle.json.sha256
+            audit-bundle.json.asc

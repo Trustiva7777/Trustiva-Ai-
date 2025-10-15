@@ -1,0 +1,60 @@
+## Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+.mypy_cache/
+*.egg-info/
+
+## Node / JS
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+## Env
+.env
+.env.*
+
+## Docker / Infra
+infra/qdrant/
+*.pid
+**/repo.lock
+
+## Hardhat / Solidity
+cache/
+artifacts/
+.typechain/
+coverage/
+
+## Web build
+apps/web/.next/
+apps/web/out/
+
+## Dist / temp
+build/
+dist/
+.tmp/
+.temp/
+
+## Editor
+.vscode/
+.idea/
+
+## Logs
+logs/
+*.log
+
+## IPFS publish outputs
+publish.result.json
+audit-bundle.json
+
+## Local queues
+queue/pending/
+queue/failed/
+queue/done/
