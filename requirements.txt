@@ -6,7 +6,7 @@ requests==2.32.3
 redis==5.2.1
 qdrant-client==1.11.3
 loguru==0.7.2
-python-dotenv==1.0.1
+python-dotenv==1.1.1
 email-validator==2.2.0
 # Agentic stack
 langchain==0.3.27
