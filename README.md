@@ -348,6 +348,9 @@ MIT — see [`LICENSE`](./LICENSE).
 - Runbook: `docs/README_RUNBOOK.md`
 - Engineering Appraisal: `docs/Trustiva_1.0_Appraisal.md`
 - CI Workflow: `.github/workflows/ci.yml`
+- Security Policy: `SECURITY.md`
+- Contributing Guide: `CONTRIBUTING.md`
+- Changelog: `CHANGELOG.md`
 
 ---
 
