@@ -10,7 +10,7 @@
     "xrpl": "^2.14.0"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-ethers": "^4.0.2",
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.14.12",
