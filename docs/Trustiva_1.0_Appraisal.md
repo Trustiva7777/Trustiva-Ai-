@@ -1,5 +1,7 @@
 # Trustiva 1.0 — Engineering Appraisal
 
+Theme: Trustiva Classic (black with gold accents #C7A340)
+
 Date: 2025‑10‑15
 
 ## Executive Summary
@@ -76,3 +78,8 @@ Overall rating: Exceeds expectations for an early product kernel. The remaining 
 ---
 
 Prepared by: Senior Engineering Review Board (generic roles). Replace with named/pseudonymous credits on request.
+
+Featured Professional Credit:
+
+- Kevan Burns — Sovereign Infrastructure Architect
+  - Senior Engineering Division (DevOps | Blockchain | AI Systems | Compliance)
