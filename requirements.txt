@@ -10,7 +10,7 @@ python-dotenv==1.0.1
 email-validator==2.2.0
 # Agentic stack
 langchain==0.3.27
-langgraph==0.2.60
+langgraph==0.6.10
 openai==1.109.1
 transformers==4.57.1
 # Comms
